@@ -2,6 +2,10 @@
 
 Browser-based space mission game with **Python (FastAPI)** simulation and **React + Phaser** visuals.
 
+![Space Mission Simulator — main menu](docs/screenshots/main-menu.png)
+
+![Galaxy map — mission select](docs/screenshots/galaxy-map.png)
+
 ## Monorepo layout
 
 ```
@@ -52,6 +56,7 @@ npm run build
 | `npm test` | Backend pytest + frontend build |
 | `npm run test:api` | Backend tests only |
 | `npm run seed` | Load YAML missions into the database |
+| `npm run screenshot` | Capture `docs/screenshots/*.png` (app must be on :5290) |
 
 ### Run production API only
 
@@ -71,8 +76,11 @@ Serve the built frontend separately (`npm run preview:web` after `npm run build:
 Use the **Game UI** link (root `/`). Nginx proxies `/api` and `/ws` to the API container.
 
 ```bash
-docker compose up --build
+npm run docker:up
+# or: docker compose up -d --build
 ```
+
+If you change ports in `docker-compose.yml`, run `npm run docker:down` first, then `docker:up` again (old containers keep the previous port mapping).
 
 Custom ports (copy `.env.example` → `.env`):
 

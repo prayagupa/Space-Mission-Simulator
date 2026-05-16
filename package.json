@@ -14,7 +14,10 @@
     "test:api": "cd backend && python -m pytest tests -q",
     "seed": "cd backend && python -m scripts.seed_missions",
     "start:api": "cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port 8100",
-    "preview:web": "npm run preview --prefix frontend"
+    "preview:web": "npm run preview --prefix frontend",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "screenshot": "node scripts/capture-screenshot.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
