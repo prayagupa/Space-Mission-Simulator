@@ -32,8 +32,10 @@ npm run install:all
 npm run dev
 ```
 
-- Frontend: [http://localhost:5173](http://localhost:5173) (proxies `/api` and `/ws` to the API)
+- Frontend: [http://localhost:5174](http://localhost:5174) (proxies `/api` and `/ws` to the API)
 - API: [http://localhost:8000](http://localhost:8000)
+
+> **Note:** Port **5173** is not used — it is commonly taken by other apps (e.g. sellerPort). This project uses **5174**.
 
 ### Build (from root)
 
@@ -60,12 +62,26 @@ Serve the built frontend separately (`npm run preview:web` after `npm run build:
 
 ## Docker (full stack)
 
+Default host ports avoid clashing with local `npm run dev` (8000 / 5173):
+
+| Service | URL | Container port |
+|---------|-----|----------------|
+| Web UI | http://localhost:5174 | 80 |
+| API (direct) | http://localhost:8001 | 8000 |
+
+Use the **web UI** URL for play — nginx proxies `/api` and `/ws` to the API container.
+
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
-- Web UI: [http://localhost:5173](http://localhost:5173)
-- API: [http://localhost:8000](http://localhost:8000)
+Custom ports (copy `.env.example` → `.env`):
+
+```bash
+cp .env.example .env
+# edit API_HOST_PORT / WEB_HOST_PORT
+docker compose up --build
+```
 
 ## Features
 
