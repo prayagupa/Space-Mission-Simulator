@@ -1,0 +1,35 @@
+slug: low-earth-insertion
+name: Low Earth Insertion
+difficulty: 2
+prerequisites: [tutorial-first-ignition]
+briefing: |
+  Circularize your orbit between **200–280 km** altitude around the planet.
+  Radial gravity pulls toward the body — thrust tangentially to raise periapsis.
+medal_thresholds:
+  gold: { fuel_pct_min: 40, max_collisions: 0 }
+  silver: { fuel_pct_min: 20, max_collisions: 0 }
+  bronze: { complete: true }
+objective:
+  type: orbit_band
+  label: "Maintain orbit 200–280 km for 5 seconds"
+  peri_km: 200
+  apo_km: 280
+  required_seconds: 5
+world:
+  gravity: radial
+  gravity_strength: 35
+  body_center: { x: 2000, y: 2800 }
+  body_radius: 900
+  drag: 0.08
+  bounds: { width: 4000, height: 4000 }
+entities:
+  - id: ship
+    template: player_ship
+    spawn: { x: 2100, y: 3400 }
+    payload: { fuel: 120, hull: 100, thrust_power: 230 }
+  - id: planet
+    template: planet
+    payload: { cx: 2000, cy: 2800, radius: 900 }
+  - id: goal_band
+    template: orbit_band
+    payload: { peri_km: 200, apo_km: 280 }

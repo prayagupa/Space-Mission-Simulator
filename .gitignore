@@ -1,0 +1,11 @@
+node_modules/
+dist/
+frontend/dist/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+*.db
+.DS_Store
+frontend/node_modules/
+backend/spacemission.db

@@ -1,0 +1,45 @@
+slug: debris-field
+name: Debris Field
+difficulty: 3
+prerequisites: [low-earth-insertion]
+briefing: |
+  Navigate through orbital debris to the **recovery beacon**.
+  Avoid impacts — hull at zero ends the mission.
+medal_thresholds:
+  gold: { fuel_pct_min: 30, max_collisions: 0 }
+  silver: { fuel_pct_min: 15, max_collisions: 1 }
+  bronze: { complete: true }
+objective:
+  type: reach_beacon
+  label: "Reach the beacon"
+  target_distance: 70
+world:
+  gravity: down
+  gravity_strength: 18
+  drag: 0.1
+  bounds: { width: 4000, height: 4000 }
+entities:
+  - id: ship
+    template: player_ship
+    spawn: { x: 300, y: 3600 }
+    payload: { fuel: 110, hull: 100, thrust_power: 250 }
+  - id: beacon
+    template: beacon
+    spawn: { x: 3600, y: 400 }
+    payload: { radius: 50 }
+  - id: debris1
+    template: debris
+    spawn: { x: 900, y: 2800 }
+    payload: { vx: 40, vy: -25 }
+  - id: debris2
+    template: debris
+    spawn: { x: 1600, y: 2200 }
+    payload: { vx: -35, vy: 30 }
+  - id: debris3
+    template: debris
+    spawn: { x: 2400, y: 1800 }
+    payload: { vx: 50, vy: 20 }
+  - id: debris4
+    template: debris
+    spawn: { x: 3000, y: 1200 }
+    payload: { vx: -45, vy: -15 }

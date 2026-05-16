@@ -1,0 +1,27 @@
+slug: tutorial-first-ignition
+name: "Tutorial: First Ignition"
+difficulty: 1
+prerequisites: []
+briefing: |
+  Welcome, Commander. Use **W** or the thrust button to fire engines.
+  Use **A** / **D** (or rotate buttons) to orient your craft.
+  Reach **80 km** altitude and hold steady for **5 seconds** to complete training.
+medal_thresholds:
+  gold: { fuel_pct_min: 50, max_collisions: 0 }
+  silver: { fuel_pct_min: 25, max_collisions: 0 }
+  bronze: { complete: true }
+objective:
+  type: altitude_band
+  label: "Hold altitude ≥ 80 km for 5 seconds"
+  altitude_min_km: 80
+  required_seconds: 5
+world:
+  gravity: down
+  gravity_strength: 24
+  drag: 0.15
+  bounds: { width: 4000, height: 4000 }
+entities:
+  - id: ship
+    template: player_ship
+    spawn: { x: 1900, y: 3600 }
+    payload: { fuel: 100, hull: 100, thrust_power: 240 }

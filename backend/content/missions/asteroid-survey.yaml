@@ -1,0 +1,44 @@
+slug: asteroid-survey
+name: Asteroid Survey
+difficulty: 4
+prerequisites: [low-earth-insertion]
+map_position: { x: 400, y: 420 }
+briefing: |
+  Orbit through the asteroid cluster and hold survey altitude (150–220 km) for 6 seconds.
+  Watch for drifting debris.
+medal_thresholds:
+  gold: { fuel_pct_min: 30, max_collisions: 0 }
+  silver: { fuel_pct_min: 15, max_collisions: 1 }
+  bronze: { complete: true }
+objective:
+  type: orbit_band
+  label: "Survey orbit 150–220 km for 6 seconds"
+  peri_km: 150
+  apo_km: 220
+  required_seconds: 6
+world:
+  gravity: radial
+  gravity_strength: 30
+  body_center: { x: 2000, y: 2600 }
+  body_radius: 700
+  drag: 0.1
+  bounds: { width: 4000, height: 4000 }
+entities:
+  - id: ship
+    template: player_ship
+    spawn: { x: 2200, y: 3200 }
+    payload: { fuel: 130, hull: 100, thrust_power: 225 }
+  - id: planet
+    template: planet
+    payload: { cx: 2000, cy: 2600, radius: 700 }
+  - id: goal_band
+    template: orbit_band
+    payload: { peri_km: 150, apo_km: 220 }
+  - id: debris1
+    template: debris
+    spawn: { x: 1800, y: 2000 }
+    payload: { vx: 25, vy: 15 }
+  - id: debris2
+    template: debris
+    spawn: { x: 2500, y: 2400 }
+    payload: { vx: -30, vy: 20 }

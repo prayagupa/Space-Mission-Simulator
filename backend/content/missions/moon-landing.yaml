@@ -1,0 +1,30 @@
+slug: moon-landing
+name: Moon Landing
+difficulty: 4
+prerequisites: [debris-field]
+map_position: { x: 720, y: 200 }
+briefing: |
+  Descend onto the lunar surface beacon. Use short thrust bursts — gravity is weaker but
+  landing too fast damages the hull.
+medal_thresholds:
+  gold: { fuel_pct_min: 35, max_collisions: 0 }
+  silver: { fuel_pct_min: 15, max_collisions: 0 }
+  bronze: { complete: true }
+objective:
+  type: reach_beacon
+  label: "Soft-land on the lunar beacon"
+  target_distance: 55
+world:
+  gravity: down
+  gravity_strength: 12
+  drag: 0.06
+  bounds: { width: 4000, height: 4000 }
+entities:
+  - id: ship
+    template: player_ship
+    spawn: { x: 2000, y: 800 }
+    payload: { fuel: 90, hull: 100, thrust_power: 200 }
+  - id: beacon
+    template: beacon
+    spawn: { x: 1950, y: 3650 }
+    payload: { radius: 55 }
