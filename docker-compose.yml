@@ -4,10 +4,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "${API_HOST_PORT:-8001}:8000"
+      - "${API_HOST_PORT:-8100}:8000"
     environment:
       DATABASE_URL: sqlite:////data/spacemission.db
-      CORS_ORIGINS: http://localhost:5174,http://127.0.0.1:5174
+      CORS_ORIGINS: http://localhost:5290,http://127.0.0.1:5290
     volumes:
       - api_data:/data
     command: >
@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: Dockerfile.web
     ports:
-      - "${WEB_HOST_PORT:-5174}:80"
+      - "${WEB_HOST_PORT:-5290}:80"
     depends_on:
       - api
 

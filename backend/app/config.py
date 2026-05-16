@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     database_url: str = f"sqlite:///{BACKEND_ROOT / 'spacemission.db'}"
-    cors_origins: str = "http://localhost:5174,http://127.0.0.1:5174"
+    cors_origins: str = "http://localhost:5290,http://127.0.0.1:5290"
     session_cookie_name: str = "space_mission_session"
     session_max_age: int = 60 * 60 * 24 * 30
     tick_rate_hz: float = 20.0

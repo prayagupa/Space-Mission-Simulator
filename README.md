@@ -32,10 +32,11 @@ npm run install:all
 npm run dev
 ```
 
-- Frontend: [http://localhost:5174](http://localhost:5174) (proxies `/api` and `/ws` to the API)
-- API: [http://localhost:8000](http://localhost:8000)
+- **Game UI:** [http://localhost:5290](http://localhost:5290) — open the root `/`, not `/review` (that path belongs to other apps)
+- API: [http://localhost:8100](http://localhost:8100)
 
-> **Note:** Port **5173** is not used — it is commonly taken by other apps (e.g. sellerPort). This project uses **5174**.
+> **Ports reserved for this project only:** web **5290**, API **8100**.  
+> Do not use 5173–5175 (sellerPort, Math World, etc.) or 8000–8001 for this app.
 
 ### Build (from root)
 
@@ -62,14 +63,12 @@ Serve the built frontend separately (`npm run preview:web` after `npm run build:
 
 ## Docker (full stack)
 
-Default host ports avoid clashing with local `npm run dev` (8000 / 5173):
+| Service | URL |
+|---------|-----|
+| **Game UI** | http://localhost:5290 |
+| API (direct) | http://localhost:8100 |
 
-| Service | URL | Container port |
-|---------|-----|----------------|
-| Web UI | http://localhost:5174 | 80 |
-| API (direct) | http://localhost:8001 | 8000 |
-
-Use the **web UI** URL for play — nginx proxies `/api` and `/ws` to the API container.
+Use the **Game UI** link (root `/`). Nginx proxies `/api` and `/ws` to the API container.
 
 ```bash
 docker compose up --build
