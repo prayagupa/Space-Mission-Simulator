@@ -9,3 +9,5 @@ __pycache__/
 .DS_Store
 frontend/node_modules/
 backend/spacemission.db
+playwright-report/
+test-results/

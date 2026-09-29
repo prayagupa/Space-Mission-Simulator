@@ -1,30 +1,44 @@
 #!/usr/bin/env node
-/**
- * Capture README screenshots. Requires the app running (Docker or npm run dev):
- *   http://127.0.0.1:5290
- * Then: npm run screenshot
- */
-import { execSync } from "child_process";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import { chromium } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dir = path.join(root, "docs", "screenshots");
 const base = process.env.SCREENSHOT_BASE || "http://127.0.0.1:5290";
-
-fs.mkdirSync(dir, { recursive: true });
-
 const shots = [
-  { url: `${base}/`, file: "main-menu.png" },
-  { url: `${base}/missions`, file: "galaxy-map.png" },
+  { pathname: "/", file: "main-menu.png" },
+  { pathname: "/missions", file: "galaxy-map.png" },
 ];
 
-for (const { url, file } of shots) {
-  const out = path.join(dir, file);
-  execSync(
-    `npx --yes playwright screenshot --viewport-size=1280,800 --wait-for-timeout=4000 "${url}" "${out}"`,
-    { stdio: "inherit", cwd: root },
-  );
-  console.log(`Wrote ${out}`);
+await mkdir(dir, { recursive: true });
+const browser = await chromium.launch({ args: ["--enable-unsafe-swiftshader"] });
+try {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, reducedMotion: "reduce" });
+  for (const { pathname, file } of shots) {
+    await page.goto(new URL(pathname, base).href);
+    await page.getByText("SYSTEMS ONLINE", { exact: true }).waitFor();
+    await page.evaluate(() => document.fonts.ready);
+    const out = path.join(dir, file);
+    await page.screenshot({ path: out, fullPage: true, animations: "disabled" });
+    console.log(`Wrote ${out}`);
+  }
+  await page.goto(new URL("/missions/tutorial-first-ignition/hangar", base).href);
+  await page.getByRole("button", { name: "Launch mission", exact: true }).click();
+  await page.getByText("FLIGHT LINK ACTIVE", { exact: true }).waitFor();
+  await page.keyboard.down("w");
+  try {
+    await page.getByText("PROPULSION ACTIVE", { exact: true }).waitFor();
+    await page.waitForFunction(() => Number(document.querySelector('[aria-label="Fuel remaining"]')?.getAttribute("aria-valuenow") ?? 100) <= 92);
+    const out = path.join(dir, "flight.png");
+    await page.screenshot({ path: out, fullPage: true, animations: "disabled" });
+    console.log(`Wrote ${out}`);
+  } finally {
+    await page.keyboard.up("w");
+    await page.getByRole("button", { name: "Hangar", exact: true }).click();
+    await page.getByRole("button", { name: "Return to hangar", exact: true }).click();
+  }
+} finally {
+  await browser.close();
 }

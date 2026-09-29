@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import asyncio
 import json
 from datetime import datetime
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
+from starlette.websockets import WebSocketState
 
 from app.config import settings
 from app.database import SessionLocal
@@ -68,6 +71,7 @@ def _finalize_run(db: Session, run_id: str, session) -> dict:
 
 @router.websocket("/ws/mission/{run_id}")
 async def mission_websocket(websocket: WebSocket, run_id: str) -> None:
+    """Stream state and release the session before acknowledging an abort."""
     session = get_session(run_id)
     if not session:
         await websocket.close(code=4004)
@@ -115,4 +119,15 @@ async def mission_websocket(websocket: WebSocket, run_id: str) -> None:
     finally:
         running = False
         tick_task.cancel()
-        remove_session(run_id)
+        try:
+            await tick_task
+        except asyncio.CancelledError:
+            pass
+        finally:
+            remove_session(run_id)
+
+    if websocket.client_state == WebSocketState.CONNECTED:
+        try:
+            await websocket.close(code=1000)
+        except WebSocketDisconnect:
+            log_run_event(run_id, "ws_disconnect")

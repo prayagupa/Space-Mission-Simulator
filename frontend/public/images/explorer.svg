@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="352" height="560" viewBox="112 60 176 280" fill="none">
+  <defs>
+    <linearGradient id="body" x1="166" y1="180" x2="234" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#293744"/><stop offset=".07" stop-color="#71828e"/><stop offset=".2" stop-color="#e0e5e6"/><stop offset=".34" stop-color="#f7f6ef"/><stop offset=".53" stop-color="#c7cece"/><stop offset=".78" stop-color="#84939d"/><stop offset=".94" stop-color="#465763"/><stop offset="1" stop-color="#243442"/>
+    </linearGradient>
+    <linearGradient id="fin" x1="124" y1="247" x2="178" y2="308" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d4dddf"/><stop offset=".32" stop-color="#82939d"/><stop offset=".65" stop-color="#435461"/><stop offset="1" stop-color="#16222d"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="185" y1="133" x2="213" y2="174" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#badfe8"/><stop offset=".12" stop-color="#709bb0"/><stop offset=".3" stop-color="#254b65"/><stop offset=".53" stop-color="#10283e"/><stop offset=".7" stop-color="#193a51"/><stop offset="1" stop-color="#030b15"/>
+    </linearGradient>
+    <linearGradient id="booster" x1="144" y1="200" x2="166" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#344653"/><stop offset=".16" stop-color="#aab6bb"/><stop offset=".38" stop-color="#e6e9e5"/><stop offset=".6" stop-color="#a5b2b8"/><stop offset=".87" stop-color="#425562"/><stop offset="1" stop-color="#152632"/>
+    </linearGradient>
+    <linearGradient id="right-booster" x1="234" y1="200" x2="256" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3a4c58"/><stop offset=".26" stop-color="#c1cbca"/><stop offset=".45" stop-color="#dfe4df"/><stop offset=".7" stop-color="#7b8c95"/><stop offset="1" stop-color="#253946"/>
+    </linearGradient>
+    <linearGradient id="copper" x1="172" y1="180" x2="232" y2="207" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#814d38"/><stop offset=".28" stop-color="#e2a078"/><stop offset=".5" stop-color="#b77450"/><stop offset=".82" stop-color="#895338"/><stop offset="1" stop-color="#4d332a"/>
+    </linearGradient>
+    <linearGradient id="nose" x1="188" y1="68" x2="217" y2="114" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e6b494"/><stop offset=".42" stop-color="#c08768"/><stop offset=".8" stop-color="#885a43"/><stop offset="1" stop-color="#4c3a32"/>
+    </linearGradient>
+    <linearGradient id="nozzle" x1="179" y1="312" x2="222" y2="333" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8d9695"/><stop offset=".14" stop-color="#40525e"/><stop offset=".5" stop-color="#111c25"/><stop offset=".86" stop-color="#354954"/><stop offset="1" stop-color="#15212a"/>
+    </linearGradient>
+    <linearGradient id="belly-shadow" x1="190" y1="221" x2="213" y2="314" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111c2700"/><stop offset=".74" stop-color="#101b2620"/><stop offset="1" stop-color="#07121c99"/>
+    </linearGradient>
+    <pattern id="tiles" width="6" height="5" patternUnits="userSpaceOnUse">
+      <rect width="6" height="5" fill="#111c25"/><path d="M0 4.7h6M5.7 0v5" stroke="#42505a" stroke-width=".45"/>
+    </pattern>
+    <pattern id="metal-grain" width="6" height="8" patternUnits="userSpaceOnUse">
+      <path d="M0 1h4m-2 4h4" stroke="#122331" stroke-opacity=".09" stroke-width=".4"/>
+      <path d="M1 2h4m-5 5h3" stroke="#fff" stroke-opacity=".13" stroke-width=".4"/>
+    </pattern>
+    <clipPath id="hull-clip"><path d="M167 169c0-46 26-91 31-101q2-4 4 0c5 10 31 55 31 101v139h-66V169Z"/></clipPath>
+  </defs>
+  <path d="m172 213-42 48-10 52 57-18M228 213l42 48 10 52-57-18" fill="url(#fin)" stroke="#768b96" stroke-width="1.1"/>
+  <path d="m133 265-10 45 48-18v-65m96 38 10 45-48-18v-65" fill="url(#tiles)" stroke="#293e4d" stroke-width="1.2"/>
+  <path d="m137 264-8 28 28-12 14-40m92 24 8 28-28-12-14-40" fill="#a2afb4" fill-opacity=".64" stroke="#cad3d4" stroke-opacity=".7" stroke-width=".7"/>
+  <path d="m130 299 35-15M270 299l-35-15" stroke="#c88864" stroke-width="2"/>
+  <path d="m125 311 9-43 39-53M275 311l-9-43-39-53" stroke="#d3e4e5" stroke-opacity=".65" stroke-width=".7"/>
+  <path d="m134 277 18-7m-21 19 26-12m109 0-18-7m21 19-26-12" stroke="#314957" stroke-width=".8"/>
+  <path d="M162 207h7v89h-7m69-89h7v89h-7" fill="#0a1821" fill-opacity=".8"/>
+  <rect x="144" y="200" width="22" height="116" rx="10" fill="url(#booster)" stroke="#8b9eaa" stroke-width=".8"/>
+  <rect x="234" y="200" width="22" height="116" rx="10" fill="url(#right-booster)" stroke="#697f8d" stroke-width=".8"/>
+  <path d="M148 211v83M239 211v83" stroke="#f5f3e7" stroke-opacity=".53" stroke-width="1.1"/>
+  <path d="M144 214h22M144 249h22M144 287h22M234 214h22M234 249h22M234 287h22" stroke="#304654" stroke-width=".9"/>
+  <path d="M145 215h20M145 250h20M145 288h20M235 215h20M235 250h20M235 288h20" stroke="#d8e1df" stroke-opacity=".5" stroke-width=".7"/>
+  <path d="M144 221h22v7h-22M234 221h22v7h-22" fill="url(#copper)"/>
+  <path d="M151 234h7v8h-7m90-8h7v8h-7" fill="#4d616b" stroke="#c1ccce" stroke-width=".5"/>
+  <path d="M153 235h3m-3 2h3m-3 2h3m87-4h3m-3 2h3m-3 2h3" stroke="#162c39" stroke-width=".7"/>
+  <path d="M147 297h16v11h-16m90-11h16v11h-16" fill="url(#tiles)" stroke="#607684" stroke-width=".7"/>
+  <path d="m150 310-5 11h20l-5-11m80 0-5 11h20l-5-11" fill="url(#nozzle)" stroke="#8a9a9f" stroke-width=".7"/>
+  <path d="M145 321h20m70 0h20" stroke="#b6b8ae" stroke-width="1.6"/>
+  <path d="M149 317h12m78 0h12" stroke="#071119" stroke-width="2.5"/>
+  <path d="M167 169c0-46 26-91 31-101q2-4 4 0c5 10 31 55 31 101v139h-66V169Z" fill="url(#body)" stroke="#a9b9be" stroke-width=".9"/>
+  <g clip-path="url(#hull-clip)">
+    <rect x="166" y="67" width="68" height="243" fill="url(#metal-grain)"/>
+    <path d="M180 113c8-23 18-46 20-46s14 23 22 46l-22 8-20-8Z" fill="url(#nose)"/>
+    <path d="M196 75c-4 9-9 20-12 30" stroke="#ffe0bd" stroke-opacity=".5" stroke-width="1.2"/>
+    <path d="m181 112 19 7 20-7M176 128q24 8 48 0M169 179h62" stroke="#334a55" stroke-opacity=".7" stroke-width=".8"/>
+    <path d="M174 157v141M226 157v141" stroke="#172e3b" stroke-opacity=".35" stroke-width="1"/>
+    <path d="M178 179v-13m44 13v-13" stroke="#f4f4e9" stroke-opacity=".55" stroke-width=".7"/>
+    <path d="M168 190h64v18h-64" fill="url(#copper)"/>
+    <path d="M168 191h64M168 206h64" stroke="#f5d0a0" stroke-opacity=".48" stroke-width=".6"/>
+    <path d="M168 209h64" stroke="#172e3b" stroke-width="1.5"/>
+    <path d="M179 217h41v51h-41Z" fill="#d6dacf" fill-opacity=".13" stroke="#405863" stroke-opacity=".55" stroke-width=".7"/>
+    <path d="M183 220v43M217 220v43" stroke="#f4f1df" stroke-opacity=".55" stroke-width=".55"/>
+    <path d="M183 225h9v2h-9m16-2h17v2h-17" fill="#65757a" fill-opacity=".6"/>
+    <rect x="188" y="234" width="24" height="22" rx="2.5" fill="#bbc6c6" fill-opacity=".2" stroke="#4b626c" stroke-width=".7"/>
+    <circle cx="200" cy="245" r="7.5" stroke="#3c5663" stroke-width="1"/>
+    <path d="m194 250 12-11M200 236v19" stroke="#3c5663" stroke-width=".85"/>
+    <path d="M170 275h61v23h-61" fill="#506672" fill-opacity=".35"/>
+    <path d="M170 280h61M170 287h61M170 296h61" stroke="#233c4c" stroke-width=".8"/>
+    <path d="M170 281h61M170 288h61" stroke="#cfdbda" stroke-opacity=".55" stroke-width=".6"/>
+    <path d="M180 280v17m10-17v17m10-17v17m10-17v17m10-17v17" stroke="#294455" stroke-opacity=".4" stroke-width=".55"/>
+    <path d="M166 218h68v92h-68" fill="url(#belly-shadow)"/>
+    <path d="m171 155 1 21m-1 38 1 7m54 10-1 7m-43 28 9-1m18 30 7 1" stroke="#1d3541" stroke-opacity=".34" stroke-width=".7"/>
+    <path d="m183 182 8-1m24 32 7 1m-43 54 5 1" stroke="#fff5d8" stroke-opacity=".5" stroke-width=".45"/>
+  </g>
+  <path d="M177 160c0-15 10-28 23-28s23 13 23 28v15h-46v-15Z" fill="#0d1d2a" stroke="#8c9ea6" stroke-width="1.2"/>
+  <path d="M181 159c0-12 8-24 19-24s19 12 19 24v12h-38v-12Z" fill="url(#glass)" stroke="#334f5e" stroke-width=".8"/>
+  <path d="M184 153c2-8 8-14 14-15l-12 22-3-1Z" fill="#c5e2e5" fill-opacity=".56"/>
+  <path d="m186 165 9-15 19 7 2 10" stroke="#89b1c5" stroke-opacity=".3" stroke-width=".7"/>
+  <path d="M200 134v38" stroke="#102330" stroke-width="2"/>
+  <path d="M199 138v31" stroke="#9ab7bf" stroke-opacity=".5" stroke-width=".6"/>
+  <path d="M178 176h44" stroke="#f2f0dd" stroke-opacity=".55" stroke-width=".6"/>
+  <g fill="#314b5b" stroke="#e0e3db" stroke-width=".25">
+    <circle cx="174" cy="184" r=".8"/><circle cx="183" cy="184" r=".8"/><circle cx="217" cy="184" r=".8"/><circle cx="226" cy="184" r=".8"/>
+    <circle cx="182" cy="218" r=".65"/><circle cx="217" cy="218" r=".65"/><circle cx="182" cy="266" r=".65"/><circle cx="217" cy="266" r=".65"/>
+    <circle cx="174" cy="278" r=".7"/><circle cx="226" cy="278" r=".7"/><circle cx="175" cy="299" r=".7"/><circle cx="225" cy="299" r=".7"/>
+  </g>
+  <text x="185" y="187" fill="#243e4c" font-family="monospace" font-size="4.3" letter-spacing=".8">EXPLORER</text>
+  <text x="191" y="272" fill="#35505e" font-family="monospace" font-size="3.7" letter-spacing=".7">OV-01</text>
+  <path d="M187 210h6v2h-6m16-2h10v2h-10" fill="#cb9c5e"/>
+  <path d="M180 303h40v8h-40" fill="#151f27" stroke="#637e8a" stroke-width=".7"/>
+  <path d="m185 309-9 22q24 7 48 0l-9-22Z" fill="url(#nozzle)" stroke="#8c9c9e" stroke-width=".8"/>
+  <path d="m187 310-6 20m11-20-3 22m11-22v23m8-23 3 22m2-22 6 20" stroke="#8b938d" stroke-opacity=".7" stroke-width=".7"/>
+  <path d="M178 331q22 5 44 0" stroke="#c1c0ac" stroke-width="1.5"/>
+  <path d="M181 332q19 2 38 0" stroke="#08131c" stroke-width="2"/>
+  <path d="M168 303v5m64-5v5" stroke="#d0b57f" stroke-width="2"/>
+  <circle cx="126" cy="305" r="1.3" fill="#c9624e"/>
+  <circle cx="274" cy="305" r="1.3" fill="#a8d8cc"/>
+</svg>

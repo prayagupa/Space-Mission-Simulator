@@ -7,8 +7,18 @@ async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
     headers: { "Content-Type": "application/json", ...init?.headers },
   });
   if (!res.ok) {
+    let message = `Request failed (${res.status}). Please try again.`;
     const text = await res.text();
-    throw new Error(text || res.statusText);
+    try {
+      const body: unknown = JSON.parse(text);
+      if (typeof body === "object" && body !== null && "detail" in body) {
+        if (typeof body.detail === "string") message = body.detail;
+        else if (Array.isArray(body.detail)) message = "Please check your details and try again.";
+      }
+    } catch (error) {
+      if (!(error instanceof SyntaxError)) throw error;
+    }
+    throw new Error(message);
   }
   return res.json() as Promise<T>;
 }
@@ -28,7 +38,7 @@ export type MissionDetail = {
   name: string;
   difficulty: number;
   briefing: string;
-  objective: { label?: string; type?: string };
+  objective: { label?: string; type?: string; altitude_min_km?: number };
   loadout: { modules: { id: string; name: string; mass: number }[]; mass_budget: number };
 };
 
@@ -65,6 +75,30 @@ export type CraftRecipe = {
   reason: string | null;
 };
 
+/** Release an allocated run before its flight socket takes ownership. */
+function cancelUnstartedRun(runId: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const socket = new WebSocket(wsUrl(`/ws/mission/${encodeURIComponent(runId)}`));
+    let abortSent = false;
+    const finish = (error?: Error) => {
+      clearTimeout(timeout);
+      socket.onopen = null;
+      socket.onclose = null;
+      socket.onerror = null;
+      socket.close();
+      if (error) reject(error);
+      else resolve();
+    };
+    const timeout = setTimeout(() => finish(new Error("Mission control couldn't confirm cancellation. Check your connection before launching again.")), 10_000);
+    socket.onopen = () => {
+      abortSent = true;
+      socket.send(JSON.stringify({ type: "abort" }));
+    };
+    socket.onclose = (event) => finish(abortSent && event.wasClean && event.code === 1000 ? undefined : new Error("The abandoned launch couldn't be released. Check your connection before launching again."));
+    socket.onerror = () => finish(new Error("Mission control couldn't be reached to cancel the abandoned launch."));
+  });
+}
+
 export const api = {
   ensureGuest: () => fetchJson<{ player_id: string }>("/session/guest", { method: "POST" }),
   listMissions: () => fetchJson<{ missions: MissionSummary[] }>("/missions"),
@@ -74,6 +108,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ loadout: { modules: loadout.modules } }),
     }),
+  cancelUnstartedRun,
   getRunResult: (runId: string) => fetchJson<RunResult>(`/runs/${runId}/result`),
   getRunReplay: (runId: string) => fetchJson<{ frames: unknown[] }>(`/runs/${runId}/replay`),
   getProgress: () => fetchJson<{ player_id: string; missions: unknown[] }>("/progress"),

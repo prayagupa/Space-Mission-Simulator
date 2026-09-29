@@ -175,6 +175,75 @@ flowchart LR
 | `game/systems` | Camera follow, parallax, particle emitters |
 | `shared/api` | OpenAPI-typed REST client |
 
+#### Flight rendering and launch ownership
+
+The hangar and live flight use one local `explorer.svg`, with panel seams, thermal
+tiles, reflective glass, and engine-bell detail. Engines stay unlit in the hangar.
+The shared flight-module loader prepares the spacecraft, NASA EPIC Earth photograph,
+and NASA LRO lunar color map before requesting a run. Image
+loads have a 10-second deadline and cancel their sibling image on failure; the
+module has a 15-second caller deadline. Phaser rasterizes the SVG once and creates
+bounded particle pools and a 48-point trail. Its sprites interpolate server
+snapshots; cosmetic effects do not change physics, fuel, collision sizes, or targets.
+
+The lunar color map is orthographically projected with bilinear sampling and
+directional illumination into one fixed-size texture during scene preparation.
+Earth's limb has a thin atmospheric glow; lunar scenery deliberately does not.
+Separate hot-core and diffuse-plume textures give each engine a softer exhaust
+profile. Plume expansion responds to the launch scene's altitude; this is a
+bounded cosmetic effect, not a new atmospheric or propulsion simulation.
+Surface projection, texture noise, and material generation never run per frame.
+Reduced motion keeps the steady thrust indication but disables flutter and particles.
+
+```mermaid
+sequenceDiagram
+    participant UI as Browser / Hangar
+    participant Game as Phaser renderer
+    participant API as Server / run owner
+    UI->>UI: Load flight module and artwork
+    UI->>API: Create run using current player session
+    API-->>UI: Allocated run ID
+    alt User is still in the same hangar
+        UI->>Game: Prepare textures and scene
+        Game-->>UI: Scene ready
+        UI->>API: Attach flight WebSocket
+        API-->>Game: Authoritative state snapshots
+    else Navigation or renderer failure
+        UI->>Game: Destroy any allocated renderer
+        UI->>API: Abort owned run, then close WebSocket
+    end
+```
+
+The post-allocation ownership check includes route changes, not just component
+unmounting. A late response cannot replace the current run or navigate the player.
+Before a flight socket exists, `api.cancelUnstartedRun` uses the existing abort
+protocol through one bounded, 10-second WebSocket connection. Once attached, normal
+WebSocket teardown owns session removal. The abort handler drains its tick task and
+removes the live session before acknowledging with a clean WebSocket close; the
+client rejects an unclean close rather than assuming cancellation succeeded.
+Cancellation failures appear in the active
+flight error or are logged if the initiating screen has already gone away; they are
+not treated as successful cancellation.
+
+**Tradeoff:** a separate REST cancellation endpoint would add another backend
+contract. Reusing the existing run-keyed abort protocol keeps this presentation
+change reversible and preserves server behavior. Cancellation cannot create or
+restart a run; a repeated abort can only target the same allocated run. This does
+not change the existing persistence behavior: abort/close removes the live session,
+but does not finalize the abandoned run's database record.
+
+The browser never supplies new physics or reward values through this path. Run IDs
+come from the launch response and are URL-encoded, not taken from a free-form target
+URL. The server's existing run lifecycle logging records the connection and
+disconnection without artwork, player credentials, or input contents.
+
+Desktop, phone, and landscape canvas baselines cover the actual textured craft,
+rotation, scenery, and engine shutoff. Real-backend tests separately cover mission
+completion and cancellation during allocation. Roll out the static frontend, its
+local image assets, and the API's clean abort acknowledgement together. An older API
+cannot confirm cancellation, so the new client reports it as unconfirmed. Reverting
+this change requires no database migration.
+
 ### 6.3 Backend modules
 
 | Module | Responsibility |

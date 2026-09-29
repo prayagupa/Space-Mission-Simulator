@@ -1,20 +1,28 @@
 import Phaser from "phaser";
 import FlightScene from "./FlightScene";
+import type { FlightAssets } from "./flightAssets";
+import type { MissionScene } from "../shared/missionPresentation";
+import type { MissionDetail } from "../shared/api";
 
-export type GameCallbacks = {
+export type FlightGameOptions = {
+  assets: FlightAssets;
+  environment: MissionScene;
+  objective: MissionDetail["objective"];
+  reducedMotion: boolean;
   onHud: (data: { fuel: number; hull: number; altitude: number; objective: string; progress: number }) => void;
-  onEnd: (msg: { type: string; score?: number; medal?: string; status?: string }) => void;
+  onReady: (scene: FlightScene) => void;
+  onError: (message: string) => void;
   getInput: () => { thrust: boolean; rotate: number };
 };
 
-export function createFlightGame(parent: HTMLElement, callbacks: GameCallbacks): Phaser.Game {
+export function createFlightGame(parent: HTMLElement, options: FlightGameOptions): Phaser.Game {
   return new Phaser.Game({
     type: Phaser.AUTO,
     parent,
     width: parent.clientWidth || 960,
     height: parent.clientHeight || 540,
-    backgroundColor: "#0a0e1a",
-    physics: { default: "arcade" },
+    backgroundColor: "#060c18",
+    antialias: true,
     scene: [FlightScene],
     scale: {
       mode: Phaser.Scale.RESIZE,
@@ -22,13 +30,8 @@ export function createFlightGame(parent: HTMLElement, callbacks: GameCallbacks):
     },
     callbacks: {
       preBoot: (game) => {
-        game.registry.set("flightCallbacks", callbacks);
+        game.registry.set("flightOptions", options);
       },
     },
   });
-}
-
-export function getFlightScene(game: Phaser.Game): FlightScene | undefined {
-  const scene = game.scene.getScene("FlightScene") as FlightScene | undefined;
-  return scene?.scene.isActive() ? scene : (game.scene.getScene("FlightScene") as FlightScene);
 }

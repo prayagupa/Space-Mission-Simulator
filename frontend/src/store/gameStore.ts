@@ -1,7 +1,11 @@
 import { create } from "zustand";
-import type { AuthProfile, DailyChallenge, MissionDetail, MissionSummary, RunResult } from "../shared/api";
+import { api, type AuthProfile, type DailyChallenge, type MissionDetail, type MissionSummary, type RunResult } from "../shared/api";
 
 type GameStore = {
+  sessionStatus: "idle" | "connecting" | "ready" | "error";
+  initialize: () => Promise<boolean>;
+  missionRefreshError: string | null;
+  refreshMissions: () => Promise<void>;
   missions: MissionSummary[];
   currentMission: MissionDetail | null;
   runId: string | null;
@@ -18,7 +22,33 @@ type GameStore = {
   setHud: (h: Partial<GameStore["hud"]>) => void;
 };
 
-export const useGameStore = create<GameStore>((set) => ({
+export const useGameStore = create<GameStore>((set, get) => ({
+  sessionStatus: "idle",
+  initialize: async () => {
+    // StrictMode and simultaneous screens must share one guest-session bootstrap.
+    if (get().sessionStatus === "connecting") return false;
+    set({ sessionStatus: "connecting", player: null, missions: [], daily: null, currentMission: null, runId: null, lastResult: null, missionRefreshError: null });
+    try {
+      await api.ensureGuest();
+      const [missions, player] = await Promise.all([api.listMissions(), api.me()]);
+      set({ missions: missions.missions, player, sessionStatus: "ready" });
+      return true;
+    } catch {
+      set({ sessionStatus: "error" });
+      return false;
+    }
+  },
+  missionRefreshError: null,
+  refreshMissions: async () => {
+    const { runId, player } = get();
+    const ownsRefresh = () => get().runId === runId && get().player?.player_id === player?.player_id;
+    try {
+      const result = await api.listMissions();
+      if (ownsRefresh()) set({ missions: result.missions, missionRefreshError: null });
+    } catch (reason) {
+      if (ownsRefresh()) set({ missionRefreshError: reason instanceof Error ? reason.message : "Please try again." });
+    }
+  },
   missions: [],
   currentMission: null,
   runId: null,
@@ -26,7 +56,7 @@ export const useGameStore = create<GameStore>((set) => ({
   player: null,
   daily: null,
   hud: { fuel: 1, hull: 1, altitude: 0, objective: "", progress: 0 },
-  setMissions: (missions) => set({ missions }),
+  setMissions: (missions) => set({ missions, missionRefreshError: null }),
   setCurrentMission: (currentMission) => set({ currentMission }),
   setRunId: (runId) => set({ runId }),
   setLastResult: (lastResult) => set({ lastResult }),
